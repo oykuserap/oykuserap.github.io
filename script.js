@@ -74,25 +74,73 @@ const projects = [
     }
 ];
 
+// Typing animation configuration
+const roles = [
+    "AI/ML Engineer",
+    "Data Scientist",
+    "Machine Learning Engineer",
+    "Data Analyst",
+    "Python Developer"
+];
+
+let currentRoleIndex = 0;
+let currentCharIndex = 0;
+let isDeleting = false;
+let typingSpeed = 150;
+let deletingSpeed = 75;
+let pauseTime = 2000;
+
 // DOM Elements
-const hamburger = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('.nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
 const projectsContainer = document.getElementById('projects-container');
 const modal = document.getElementById('project-modal');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.querySelector('.modal-close');
 const contactForm = document.getElementById('contact-form');
+const typingText = document.getElementById('typing-text');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     renderProjects();
-    initializeNavigation();
     initializeModal();
     initializeContactForm();
     initializeScrollAnimations();
     loadProfileImage();
+    startTypingAnimation();
 });
+
+// Typing animation function
+function startTypingAnimation() {
+    if (!typingText) return;
+
+    function type() {
+        const currentRole = roles[currentRoleIndex];
+        
+        if (isDeleting) {
+            typingText.textContent = currentRole.substring(0, currentCharIndex - 1);
+            currentCharIndex--;
+            
+            if (currentCharIndex === 0) {
+                isDeleting = false;
+                currentRoleIndex = (currentRoleIndex + 1) % roles.length;
+                setTimeout(type, 500);
+                return;
+            }
+            setTimeout(type, deletingSpeed);
+        } else {
+            typingText.textContent = currentRole.substring(0, currentCharIndex + 1);
+            currentCharIndex++;
+            
+            if (currentCharIndex === currentRole.length) {
+                isDeleting = true;
+                setTimeout(type, pauseTime);
+                return;
+            }
+            setTimeout(type, typingSpeed);
+        }
+    }
+    
+    type();
+}
 
 // Load profile image with fallback
 function loadProfileImage() {
@@ -131,65 +179,10 @@ function loadProfileImage() {
     img.src = `./profile-photo.jpg?v=${Date.now()}`;
 }
 
-// Navigation functionality
-function initializeNavigation() {
-    // Mobile menu toggle
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
-    });
-
-    // Smooth scrolling for navigation links
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 70; // Account for fixed navbar
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Update active navigation link on scroll
-    window.addEventListener('scroll', updateActiveNavLink);
-}
-
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section');
-    const scrollPos = window.scrollY + 100;
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
-    });
-}
-
 // Projects rendering
 function renderProjects() {
+    if (!projectsContainer) return;
+    
     projectsContainer.innerHTML = '';
     
     projects.forEach(project => {
@@ -225,6 +218,8 @@ function createProjectCard(project) {
 
 // Modal functionality
 function initializeModal() {
+    if (!modal || !modalClose) return;
+    
     modalClose.addEventListener('click', closeProjectModal);
     
     modal.addEventListener('click', (e) => {
@@ -242,27 +237,29 @@ function initializeModal() {
 }
 
 function openProjectModal(project) {
+    if (!modalBody) return;
+    
     modalBody.innerHTML = `
         <div class="project-image" style="height: 250px; font-size: 4rem; margin-bottom: 2rem;">
             ${project.image}
         </div>
-        <h2 style="margin-bottom: 1rem; color: #1f2937;">${project.title}</h2>
-        <p style="color: #6b7280; margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6;">
+        <h2 style="margin-bottom: 1rem; color: var(--primary-color);">${project.title}</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6;">
             ${project.longDescription}
         </p>
         
         <div style="margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1rem; color: #1f2937;">Technologies Used</h3>
+            <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Technologies Used</h3>
             <div class="project-tech">
                 ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
             </div>
         </div>
         
         <div style="margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1rem; color: #1f2937;">Key Features</h3>
+            <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Key Features</h3>
             <ul style="list-style: none; padding: 0;">
                 ${project.features.map(feature => `
-                    <li style="margin-bottom: 0.5rem; color: #6b7280; padding-left: 1.5rem; position: relative;">
+                    <li style="margin-bottom: 0.5rem; color: var(--text-light); padding-left: 1.5rem; position: relative;">
                         <i class="fas fa-check" style="position: absolute; left: 0; top: 0.2rem; color: #10b981;"></i>
                         ${feature}
                     </li>
@@ -285,12 +282,16 @@ function openProjectModal(project) {
 }
 
 function closeProjectModal() {
+    if (!modal) return;
+    
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
 // Contact form functionality
 function initializeContactForm() {
+    if (!contactForm) return;
+    
     // Check if form has action attribute (external service like Formspree)
     if (contactForm.getAttribute('action')) {
         // Let the form submit naturally to external service
@@ -395,21 +396,9 @@ function initializeScrollAnimations() {
     projectCards.forEach(card => observer.observe(card));
     
     // Observe other elements
-    const animatedElements = document.querySelectorAll('.contact-method, .skill-tag');
+    const animatedElements = document.querySelectorAll('.contact-method, .skill-tag, .feature, .academic-card, .experience-card, .skill-category');
     animatedElements.forEach(element => observer.observe(element));
 }
-
-// Navbar background on scroll
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = 'none';
-    }
-});
 
 // Smooth scrolling for all internal links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -417,7 +406,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            const offsetTop = target.offsetTop - 70;
+            const offsetTop = target.offsetTop - 20;
             window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
@@ -425,41 +414,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// Add loading animation for images (if you add real images later)
-function addImageLoading() {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        img.addEventListener('load', () => {
-            img.classList.remove('loading');
-        });
-        
-        if (!img.complete) {
-            img.classList.add('loading');
-        }
-    });
-}
-
-// Add typing effect for hero title
-function initializeTypingEffect() {
-    const title = document.querySelector('.hero-title');
-    if (title) {
-        const text = title.innerHTML;
-        title.innerHTML = '';
-        let index = 0;
-        
-        function typeWriter() {
-            if (index < text.length) {
-                title.innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, 100);
-            }
-        }
-        
-        // Start typing effect after a short delay
-        setTimeout(typeWriter, 1000);
-    }
-}
 
 // Performance optimization: Debounce scroll events
 function debounce(func, wait) {
@@ -474,9 +428,51 @@ function debounce(func, wait) {
     };
 }
 
-// Apply debouncing to scroll events
-const debouncedScrollHandler = debounce(() => {
-    updateActiveNavLink();
-}, 100);
+// Add intersection observer for scroll animations
+const fadeElements = document.querySelectorAll('.feature, .academic-card, .experience-card, .skill-category');
 
-window.addEventListener('scroll', debouncedScrollHandler);
+const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+// Apply initial styles and observe elements
+fadeElements.forEach(element => {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(30px)';
+    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    fadeObserver.observe(element);
+});
+
+// Add hover effects for interactive elements
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+
+// Add parallax effect to hero section
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        const speed = scrolled * 0.5;
+        hero.style.transform = `translateY(${speed}px)`;
+    }
+});
+
