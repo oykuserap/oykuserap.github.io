@@ -598,6 +598,15 @@ body {
         transform: translateY(-8px) rotate(-45deg);
     }
 
+    /* Fix navbar blocking content on mobile */
+    .about, .projects, .contact {
+        padding-top: 130px;
+    }
+
+    .hero {
+        padding-top: 70px;
+    }
+
     .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
@@ -645,6 +654,11 @@ body {
 @media (max-width: 480px) {
     .container {
         padding: 0 15px;
+    }
+
+    /* Ensure sections don't get blocked by navbar on small screens */
+    .about, .projects, .contact {
+        padding-top: 120px;
     }
 
     .hero-title {
