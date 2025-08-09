@@ -103,12 +103,18 @@ function loadProfileImage() {
     }
     
     console.log('Starting to load profile image...');
+    
+    // First, try to load and set the background image directly
+    profileImg.style.backgroundImage = `url('./profile-photo.jpg?v=${Date.now()})`;
+    profileImg.style.backgroundSize = 'cover';
+    profileImg.style.backgroundPosition = 'center 80%';
+    
+    // Create an image element to test if the image loads
     const img = new Image();
     
     img.onload = function() {
         console.log('Profile image loaded successfully');
         console.log('Image dimensions:', img.width, 'x', img.height);
-        profileImg.style.backgroundImage = `url('./profile-photo.jpg?v=${Date.now()})`;
         profileImg.classList.remove('image-failed');
         profileImg.classList.add('image-loaded');
         console.log('Profile image applied to element');
@@ -116,22 +122,13 @@ function loadProfileImage() {
     
     img.onerror = function() {
         console.log('Profile image failed to load, using fallback emoji');
+        profileImg.style.backgroundImage = 'none';
         profileImg.classList.remove('image-loaded');
         profileImg.classList.add('image-failed');
     };
     
-    // Test different paths
-    const imagePath = './profile-photo.jpg';
-    console.log('Attempting to load image from:', imagePath);
-    img.src = imagePath;
-    
-    // Also try setting background image directly as fallback
-    setTimeout(() => {
-        if (!profileImg.classList.contains('image-loaded')) {
-            console.log('Trying direct background image approach...');
-            profileImg.style.backgroundImage = `url('./profile-photo.jpg'), url('profile-photo.jpg')`;
-        }
-    }, 2000);
+    // Test the image loading
+    img.src = `./profile-photo.jpg?v=${Date.now()}`;
 }
 
 // Navigation functionality
