@@ -22,11 +22,13 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background: var(--bg-color);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -53,6 +55,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero .container {
     display: grid;
     grid-template-columns: 2fr 1fr;
+    grid-gap: 4rem;
     gap: 4rem;
     align-items: center;
 }
@@ -67,9 +70,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-title .highlight {
     background: var(--gradient);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: transparent;
 }
 
 .hero-subtitle {
@@ -236,6 +240,7 @@ h1, h2, h3, h4, h5, h6 {
 .about-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
+    grid-gap: 4rem;
     gap: 4rem;
     align-items: start;
 }
@@ -307,6 +312,7 @@ h1, h2, h3, h4, h5, h6 {
 .academic-card {
     display: grid;
     grid-template-columns: auto 1fr;
+    grid-gap: 2rem;
     gap: 2rem;
     background: var(--secondary-color);
     padding: 3rem;
@@ -426,6 +432,7 @@ h1, h2, h3, h4, h5, h6 {
 .experience-card {
     display: grid;
     grid-template-columns: auto 1fr;
+    grid-gap: 2rem;
     gap: 2rem;
     background: var(--secondary-color);
     padding: 2.5rem;
@@ -722,6 +729,7 @@ h1, h2, h3, h4, h5, h6 {
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-gap: 4rem;
     gap: 4rem;
     max-width: 1000px;
     margin: 0 auto;
