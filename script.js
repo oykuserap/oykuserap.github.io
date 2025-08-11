@@ -152,10 +152,9 @@ function loadProfileImage() {
     
     console.log('Starting to load profile image...');
     
-    // First, try to load and set the background image directly
-    profileImg.style.backgroundImage = `url('./profile-photo.jpg?v=${Date.now()})`;
-    profileImg.style.backgroundSize = 'cover';
-    profileImg.style.backgroundPosition = 'center 80%';
+    // Set initial state
+    profileImg.classList.add('image-failed'); // Start with emoji visible
+    profileImg.classList.remove('image-loaded');
     
     // Create an image element to test if the image loads
     const img = new Image();
@@ -163,9 +162,22 @@ function loadProfileImage() {
     img.onload = function() {
         console.log('Profile image loaded successfully');
         console.log('Image dimensions:', img.width, 'x', img.height);
-        profileImg.classList.remove('image-failed');
-        profileImg.classList.add('image-loaded');
-        console.log('Profile image applied to element');
+        
+        // Small delay to ensure smooth transition
+        setTimeout(() => {
+            // Apply the background image only after successful load
+            profileImg.style.backgroundImage = `url('./profile-photo.jpg?v=${Date.now()})`;
+            profileImg.style.backgroundSize = 'cover';
+            profileImg.style.backgroundPosition = 'center';
+            profileImg.style.backgroundRepeat = 'no-repeat';
+            
+            // Trigger the transition with a slight delay for smoothness
+            setTimeout(() => {
+                profileImg.classList.remove('image-failed');
+                profileImg.classList.add('image-loaded');
+                console.log('Profile image transition applied');
+            }, 100);
+        }, 200);
     };
     
     img.onerror = function() {
@@ -466,13 +478,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add parallax effect to hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const speed = scrolled * 0.5;
-        hero.style.transform = `translateY(${speed}px)`;
-    }
-});
+// Smooth scroll performance optimization
+window.addEventListener('scroll', debounce(() => {
+    // Reserved for future scroll-based animations if needed
+}, 16));
 
