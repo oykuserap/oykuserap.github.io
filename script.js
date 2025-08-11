@@ -74,93 +74,9 @@ const projects = [
     }
 ];
 
-// Blog posts data
-const blogPosts = [
-    {
-        id: 1,
-        title: "The Future of AI in Healthcare: Ethical Considerations and Opportunities",
-        excerpt: "Exploring how artificial intelligence is transforming healthcare while addressing crucial ethical implications and ensuring responsible development.",
-        content: "As AI continues to revolutionize healthcare, we must carefully balance innovation with ethical responsibility...",
-        category: "AI Ethics",
-        tags: ["AI", "Healthcare", "Ethics", "Machine Learning"],
-        date: "2025-01-15",
-        readTime: "8 min read",
-        featured: true
-    },
-    {
-        id: 2,
-        title: "Building Robust ML Pipelines: Lessons from Production Deployments",
-        excerpt: "Practical insights from deploying machine learning models in production environments, including common pitfalls and best practices.",
-        content: "Production ML is fundamentally different from research. Here's what I've learned from deploying models at scale...",
-        category: "MLOps",
-        tags: ["MLOps", "Python", "Production", "DevOps"],
-        date: "2025-01-08",
-        readTime: "6 min read",
-        featured: false
-    },
-    {
-        id: 3,
-        title: "Computer Vision Breakthroughs: From CNNs to Vision Transformers",
-        excerpt: "A comprehensive overview of the evolution in computer vision, examining the transition from traditional CNNs to modern vision transformers.",
-        content: "The computer vision landscape has undergone dramatic changes in recent years...",
-        category: "Computer Vision",
-        tags: ["Computer Vision", "Transformers", "CNN", "Deep Learning"],
-        date: "2025-01-02",
-        readTime: "10 min read",
-        featured: true
-    },
-    {
-        id: 4,
-        title: "Getting Started with MLOps: A Student's Perspective",
-        excerpt: "My journey learning MLOps as a computer science student, including tools, practices, and real-world applications.",
-        content: "MLOps seemed intimidating at first, but breaking it down into manageable components made all the difference...",
-        category: "Education",
-        tags: ["MLOps", "Student Life", "Learning", "Career"],
-        date: "2024-12-20",
-        readTime: "5 min read",
-        featured: false
-    }
-];
-
-// LinkedIn posts data
-const linkedinPosts = [
-    {
-        id: 1,
-        content: "Just completed my first semester working on medical image analysis using deep learning! 🧠🔬 The intersection of AI and healthcare continues to amaze me. Our team achieved 92% accuracy in diagnostic classification - excited to share more details soon! #MachineLearning #Healthcare #AI",
-        date: "2025-01-10",
-        likes: 127,
-        comments: 18,
-        shares: 12,
-        type: "achievement"
-    },
-    {
-        id: 2,
-        content: "Hot take: The best way to learn ML is by building projects that fail. 🚀 My first neural network predicted everything as the same class for weeks. Each bug taught me more than any textbook could. What's your biggest 'learning failure' story? #MachineLearning #StudentLife #Growth",
-        date: "2025-01-05",
-        likes: 89,
-        comments: 24,
-        shares: 7,
-        type: "insight"
-    },
-    {
-        id: 3,
-        content: "Fascinating discussion at today's AI Ethics seminar about bias in hiring algorithms. As future ML engineers, we have a responsibility to build fair and inclusive systems. What steps are you taking to address bias in your models? #AIEthics #ResponsibleAI #Diversity",
-        date: "2024-12-28",
-        likes: 156,
-        comments: 31,
-        shares: 23,
-        type: "discussion"
-    },
-    {
-        id: 4,
-        content: "Weekend project: Built a sentiment analysis tool for social media monitoring using BERT transformers. The results are surprisingly nuanced! Sometimes the model catches sarcasm better than I do 😅 #NLP #BERT #WeekendProject #DataScience",
-        date: "2024-12-22",
-        likes: 73,
-        comments: 12,
-        shares: 8,
-        type: "project"
-    }
-];
+// Note: Blog and LinkedIn sections now use static HTML content
+// Blog posts will be added when you start blogging
+// LinkedIn integration can be added later if desired
 
 // Typing animation configuration
 const roles = [
@@ -180,8 +96,6 @@ let pauseTime = 2000;
 
 // DOM Elements
 const projectsContainer = document.getElementById('projects-container');
-const blogContainer = document.getElementById('blog-container');
-const linkedinContainer = document.getElementById('linkedin-container');
 const modal = document.getElementById('project-modal');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.querySelector('.modal-close');
@@ -191,14 +105,11 @@ const typingText = document.getElementById('typing-text');
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     renderProjects();
-    renderBlogPosts();
-    renderLinkedInPosts();
     initializeModal();
     initializeContactForm();
     initializeScrollAnimations();
     loadProfileImage();
     startTypingAnimation();
-    initializeBlogFunctionality();
     initializeNavigation();
 });
 
@@ -320,188 +231,6 @@ function createProjectCard(project) {
     `;
     
     return card;
-}
-
-// Blog posts rendering
-function renderBlogPosts() {
-    if (!blogContainer) return;
-    
-    blogContainer.innerHTML = '';
-    
-    // Show only featured posts and most recent ones (limit to 3)
-    const postsToShow = blogPosts
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 3);
-    
-    postsToShow.forEach(post => {
-        const blogCard = createBlogCard(post);
-        blogContainer.appendChild(blogCard);
-    });
-}
-
-function createBlogCard(post) {
-    const card = document.createElement('div');
-    card.className = 'blog-card';
-    card.onclick = () => openBlogPost(post);
-    
-    const postDate = new Date(post.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-    
-    card.innerHTML = `
-        <div class="blog-meta">
-            <span class="blog-category">${post.category}</span>
-            <span class="blog-date">${postDate}</span>
-        </div>
-        <h3 class="blog-title">${post.title}</h3>
-        <p class="blog-excerpt">${post.excerpt}</p>
-        <div class="blog-tags">
-            ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
-        </div>
-        <a href="#" class="blog-read-more" onclick="event.stopPropagation(); openBlogPost(${JSON.stringify(post).replace(/"/g, '&quot;')})">
-            Read More <i class="fas fa-arrow-right"></i>
-        </a>
-    `;
-    
-    return card;
-}
-
-// LinkedIn posts rendering
-function renderLinkedInPosts() {
-    if (!linkedinContainer) return;
-    
-    linkedinContainer.innerHTML = '';
-    
-    // Show most recent posts (limit to 4)
-    const postsToShow = linkedinPosts
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 4);
-    
-    postsToShow.forEach(post => {
-        const linkedinCard = createLinkedInCard(post);
-        linkedinContainer.appendChild(linkedinCard);
-    });
-}
-
-function createLinkedInCard(post) {
-    const card = document.createElement('div');
-    card.className = 'linkedin-post';
-    
-    const postDate = new Date(post.date).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric'
-    });
-    
-    card.innerHTML = `
-        <div class="linkedin-header">
-            <div class="linkedin-avatar">SO</div>
-            <div class="linkedin-author">
-                <div class="linkedin-name">Serap Ogut</div>
-                <div class="linkedin-time">${postDate} • AI/ML Engineer</div>
-            </div>
-        </div>
-        <div class="linkedin-content">${post.content}</div>
-        <div class="linkedin-engagement">
-            <div class="linkedin-metric">
-                <i class="fas fa-thumbs-up"></i>
-                <span>${post.likes} likes</span>
-            </div>
-            <div class="linkedin-metric">
-                <i class="fas fa-comment"></i>
-                <span>${post.comments} comments</span>
-            </div>
-            <div class="linkedin-metric">
-                <i class="fas fa-share"></i>
-                <span>${post.shares} shares</span>
-            </div>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Blog functionality
-function initializeBlogFunctionality() {
-    const viewAllPostsBtn = document.getElementById('view-all-posts');
-    const writePostBtn = document.getElementById('write-post');
-    
-    if (viewAllPostsBtn) {
-        viewAllPostsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAllBlogPosts();
-        });
-    }
-    
-    if (writePostBtn) {
-        writePostBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openBlogEditor();
-        });
-    }
-}
-
-function openBlogPost(post) {
-    // Create a simple blog post modal
-    const blogModal = document.createElement('div');
-    blogModal.className = 'project-modal';
-    blogModal.style.display = 'block';
-    
-    const postDate = new Date(post.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-    
-    blogModal.innerHTML = `
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div class="modal-body">
-                <div style="margin-bottom: 1rem;">
-                    <span class="blog-category">${post.category}</span>
-                    <span style="color: var(--text-light); margin-left: 1rem;">${postDate} • ${post.readTime}</span>
-                </div>
-                <h1 style="margin-bottom: 2rem; color: var(--primary-color);">${post.title}</h1>
-                <div style="margin-bottom: 2rem;">
-                    ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join(' ')}
-                </div>
-                <div style="line-height: 1.8; color: var(--text-color);">
-                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">${post.excerpt}</p>
-                    <p>${post.content}</p>
-                    <p style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-alt); border-radius: 8px; font-style: italic;">
-                        This is a preview of the blog post. The full article would contain detailed technical content, 
-                        code examples, and comprehensive analysis of the topic.
-                    </p>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(blogModal);
-    document.body.style.overflow = 'hidden';
-    
-    // Add close functionality
-    const closeBtn = blogModal.querySelector('.modal-close');
-    closeBtn.onclick = () => {
-        document.body.removeChild(blogModal);
-        document.body.style.overflow = 'auto';
-    };
-    
-    blogModal.onclick = (e) => {
-        if (e.target === blogModal) {
-            document.body.removeChild(blogModal);
-            document.body.style.overflow = 'auto';
-        }
-    };
-}
-
-function showAllBlogPosts() {
-    alert('Blog archive feature coming soon! This would navigate to a dedicated blog page with all posts.');
-}
-
-function openBlogEditor() {
-    alert('Blog editor feature coming soon! This would open a markdown editor for creating new posts.');
 }
 
 // Modal functionality
