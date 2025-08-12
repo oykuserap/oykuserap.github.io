@@ -734,9 +734,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .skills-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-bottom: 3rem;
+}
+
+/* Center the last two items */
+.skill-category:nth-child(4),
+.skill-category:nth-child(5) {
+    grid-column: span 1;
+}
+
+.skill-category:nth-child(4) {
+    justify-self: end;
+}
+
+.skill-category:nth-child(5) {
+    justify-self: start;
 }
 
 .skill-category {
@@ -1429,6 +1443,21 @@ h1, h2, h3, h4, h5, h6 {
         grid-template-columns: 1fr;
         gap: 3rem;
     }
+
+    .skills-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Tablet centering for last item */
+    .skill-category:nth-child(5) {
+        grid-column: span 2;
+        justify-self: center;
+        max-width: 400px;
+    }
+
+    .skill-category:nth-child(4) {
+        justify-self: center;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1505,6 +1534,13 @@ h1, h2, h3, h4, h5, h6 {
 
     .skills-content {
         grid-template-columns: 1fr;
+    }
+
+    /* Reset centering on mobile */
+    .skill-category:nth-child(4),
+    .skill-category:nth-child(5) {
+        grid-column: span 1;
+        justify-self: center;
     }
 
     .projects-grid {
