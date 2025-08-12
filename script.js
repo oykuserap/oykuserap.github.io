@@ -183,10 +183,6 @@ function loadProfileImage() {
         profileImg.classList.remove('image-loaded');
         profileImg.classList.add('image-failed');
     };
-        profileImg.style.backgroundImage = 'none';
-        profileImg.classList.remove('image-loaded');
-        profileImg.classList.add('image-failed');
-    };
     
     // Test the image loading
     img.src = `./profile-photo.jpg?v=${Date.now()}`;
