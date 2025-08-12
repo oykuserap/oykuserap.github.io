@@ -81,7 +81,8 @@ const projects = [
 // Typing animation configuration
 const roles = [
     "AI/ML Engineer",
-    "Data Scientist",
+    "Data Scientist", 
+    "Software Engineer",
     "Machine Learning Engineer",
     "Data Analyst",
     "Python Developer"
