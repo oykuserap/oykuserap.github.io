@@ -157,36 +157,31 @@ function loadProfileImage() {
     
     console.log('Starting to load profile image...');
     
-    // Set initial state
-    profileImg.classList.add('image-failed'); // Start with emoji visible
-    profileImg.classList.remove('image-loaded');
+    // Start with image loaded state - try to load image immediately
+    profileImg.classList.remove('image-failed');
+    profileImg.classList.add('image-loaded');
     
-    // Create an image element to test if the image loads
+    // Apply the background image immediately
+    profileImg.style.backgroundImage = `url('./profile-photo.jpg?v=${Date.now()})`;
+    profileImg.style.backgroundSize = 'cover';
+    profileImg.style.backgroundPosition = 'center';
+    profileImg.style.backgroundRepeat = 'no-repeat';
+    
+    // Create an image element to test if the image actually loads
     const img = new Image();
     
     img.onload = function() {
         console.log('Profile image loaded successfully');
         console.log('Image dimensions:', img.width, 'x', img.height);
-        
-        // Small delay to ensure smooth transition
-        setTimeout(() => {
-            // Apply the background image only after successful load
-            profileImg.style.backgroundImage = `url('./profile-photo.jpg?v=${Date.now()})`;
-            profileImg.style.backgroundSize = 'cover';
-            profileImg.style.backgroundPosition = 'center';
-            profileImg.style.backgroundRepeat = 'no-repeat';
-            
-            // Trigger the transition with a slight delay for smoothness
-            setTimeout(() => {
-                profileImg.classList.remove('image-failed');
-                profileImg.classList.add('image-loaded');
-                console.log('Profile image transition applied');
-            }, 100);
-        }, 200);
+        // Image is already applied, just log success
     };
     
     img.onerror = function() {
         console.log('Profile image failed to load, using fallback emoji');
+        profileImg.style.backgroundImage = 'none';
+        profileImg.classList.remove('image-loaded');
+        profileImg.classList.add('image-failed');
+    };
         profileImg.style.backgroundImage = 'none';
         profileImg.classList.remove('image-loaded');
         profileImg.classList.add('image-failed');
