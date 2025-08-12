@@ -1119,6 +1119,27 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0 !important;
 }
 
+/* Projects Coming Soon Styles */
+.projects-coming-soon {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.projects-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.projects-coming-soon .coming-soon-card li::before {
+    content: '⚡';
+    position: absolute;
+    left: 0;
+}
+
 /* LinkedIn Section */
 .linkedin {
     padding: 100px 0;
