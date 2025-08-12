@@ -627,96 +627,103 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
-/* Leadership Section */
-.leadership {
+.experience-cta {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Resume Section */
+.resume {
     padding: 100px 0;
     background: var(--bg-color);
 }
 
-.leadership-content {
+.resume-content {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 900px;
-    margin: 0 auto;
+    justify-content: center;
 }
 
-.leadership-card {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: 2rem;
-    gap: 2rem;
+.resume-preview {
+    max-width: 600px;
+    width: 100%;
+}
+
+.resume-card {
     background: var(--secondary-color);
-    padding: 2.5rem;
     border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    padding: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 2px solid var(--border-color);
     transition: transform 0.3s ease;
-    border-left: 4px solid var(--accent-color);
 }
 
-.leadership-card:hover {
+.resume-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.leadership-icon {
-    width: 60px;
-    height: 60px;
+.resume-icon {
+    width: 80px;
+    height: 80px;
     background: var(--gradient);
-    border-radius: 50%;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto 1.5rem;
     color: var(--secondary-color);
-    font-size: 1.5rem;
-    flex-shrink: 0;
+    font-size: 2.5rem;
 }
 
-.leadership-info h3 {
-    font-size: 1.5rem;
+.resume-card h3 {
+    font-size: 1.8rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     color: var(--primary-color);
 }
 
-.leadership-info h4 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    margin-bottom: 1rem;
+.resume-card > p {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    font-size: 1.1rem;
 }
 
-.leadership-details {
+.resume-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.highlight-item {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.leadership-period,
-.leadership-location {
+    align-items: center;
+    gap: 0.8rem;
     color: var(--text-light);
     font-weight: 500;
 }
 
-.leadership-info ul {
-    list-style: none;
-    padding: 0;
-}
-
-.leadership-info li {
-    color: var(--text-light);
-    margin-bottom: 0.8rem;
-    position: relative;
-    padding-left: 1.5rem;
-    line-height: 1.6;
-}
-
-.leadership-info li::before {
-    content: '★';
+.highlight-item i {
     color: var(--accent-color);
-    position: absolute;
-    left: 0;
-    font-weight: bold;
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.resume-note {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 0 !important;
 }
 
 /* Skills Section */
@@ -1386,16 +1393,14 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .academic-card,
-    .experience-card,
-    .leadership-card {
+    .experience-card {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         text-align: center;
     }
 
     .academic-icon,
-    .experience-icon,
-    .leadership-icon {
+    .experience-icon {
         margin: 0 auto;
     }
 
@@ -1492,10 +1497,19 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .academic-details,
-    .experience-details,
-    .leadership-details {
+    .experience-details {
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .resume-highlights {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .resume-actions {
+        flex-direction: column;
+        align-items: center;
     }
 
     .academic-achievements {
